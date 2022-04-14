@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import useFetch from './hooks/useFetch';
+import useInput from './hooks/useInput';
 
 function App() {
+  const { val, onChange, onBlur, error } = useInput('Hello world', true);
+  const {
+    loading,
+    data,
+    error: fetchError,
+  } = useFetch('https://www.reddit.com/r/news.json');
+  if (loading) return 'Loading....';
+  if (fetchError) {
+    return null;
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form>
+        <input value={val} onChange={onChange} onBlur={onBlur} />
+        {error && <span style={{ color: 'red' }}>{error}</span>}
+      </form>
+      {JSON.stringify(data && data.dist)}
     </div>
   );
 }
