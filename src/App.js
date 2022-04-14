@@ -31,7 +31,6 @@ function App() {
       });
   };
   const onChange = (e) => {
-    console.log(e.target);
     if (error) setError(null);
     setVal(e.target.value);
   };
